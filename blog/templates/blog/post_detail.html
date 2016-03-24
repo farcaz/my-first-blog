@@ -1,4 +1,5 @@
 {% extends 'blog/base.html' %}
+{% load social_widgets %}
 
 {% block content %}
     <div class="post">
@@ -13,8 +14,12 @@
 {% endif %}
         <h1>{{ post.title }}</h1>
         <p>{{ post.text|linebreaks }}</p>
+{% social_widget_render "facebook/share_button.html" href="developers.facebook.com" %}
+                        {% social_widget_render "twitter/share_button.html" href="http://www.twitter.com" %}
+                     
     </div>
 <hr>
+
 <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
 {% for comment in post.comments.all %}
     {% if user.is_authenticated or comment.approved_comment %}
@@ -30,6 +35,7 @@
         <p>{{ comment.text|linebreaks }}</p>
     </div>
     {% endif %}
+
 {% empty %}
     <p>No comments here yet :(</p>
 {% endfor %}
